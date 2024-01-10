@@ -20,11 +20,10 @@ import { Fragment } from 'react'
 import { DefaultSeo } from 'next-seo'
 import { PageMeta } from 'components/Layout/Page'
 import { SentryErrorBoundary } from 'components/ErrorBoundary'
-import { PersistGate } from 'redux-persist/integration/react'
 
 import { useDataDogRUM } from 'hooks/useDataDogRUM'
 import { useLoadExperimentalFeatures } from 'hooks/useExperimentalFeatureEnabled'
-import { persistor, useStore } from 'state'
+import { useStore } from 'state'
 import { usePollBlockNumber } from 'state/block/hooks'
 import { Blocklist, Updaters } from '..'
 import { SEO } from '../../next-seo.config'
@@ -96,10 +95,8 @@ function MyApp(props: AppProps<{ initialReduxState: any; dehydratedState: any }>
           <ResetCSS />
           <GlobalStyle />
           <GlobalCheckClaimStatus excludeLocations={[]} />
-          <PersistGate loading={null} persistor={persistor}>
-            <Updaters />
-            <App {...props} />
-          </PersistGate>
+          <Updaters />
+          <App {...props} />
         </Blocklist>
       </Providers>
       <Script

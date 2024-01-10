@@ -15,7 +15,6 @@ import {
   WaitForTransactionReceiptTimeoutError,
 } from 'viem'
 import { retry, RetryableError } from 'state/multicall/retry'
-import { useAppDispatch } from 'state'
 import {
   finalizeTransaction,
   FarmTransactionStatus,
@@ -25,7 +24,7 @@ import {
 } from './actions'
 import { useAllChainTransactions } from './hooks'
 import { fetchCelerApi } from './fetchCelerApi'
-import { TransactionDetails } from './reducer'
+import { TransactionDetails, useTransactionState } from './reducer'
 
 export function shouldCheck(
   fetchedTransactions: { [txHash: string]: TransactionDetails },
@@ -39,7 +38,7 @@ export const Updater: React.FC<{ chainId: number }> = ({ chainId }) => {
   const provider = usePublicClient({ chainId })
   const { t } = useTranslation()
 
-  const dispatch = useAppDispatch()
+  const [, dispatch] = useTransactionState()
   const transactions = useAllChainTransactions(chainId)
 
   const { toastError, toastSuccess } = useToast()

@@ -28,6 +28,7 @@ import { useIsBloctoETH } from 'views/Farms'
 import { Hash } from 'viem'
 import { FarmWithStakedValue } from '@pancakeswap/farms'
 import useAccountActiveChain from 'hooks/useAccountActiveChain'
+import { useTransactionState } from 'state/transactions/reducer'
 import useApproveFarm from '../../../hooks/useApproveFarm'
 import useStakeFarms from '../../../hooks/useStakeFarms'
 import useUnstakeFarms from '../../../hooks/useUnstakeFarms'
@@ -135,7 +136,7 @@ const Staked: React.FunctionComponent<React.PropsWithChildren<StackedActionProps
   onApprove,
   isApproved,
 }) => {
-  const dispatch = useAppDispatch()
+  const [, transactionDispatch] = useTransactionState()
   const native = useNativeCurrency()
   const pendingFarm = useNonBscFarmPendingTransaction(lpAddress)
   const { boosterState } = useContext(YieldBoosterStateContext)
@@ -228,7 +229,7 @@ const Staked: React.FunctionComponent<React.PropsWithChildren<StackedActionProps
         },
       })
 
-      dispatch(pickFarmTransactionTx({ tx: receipt.hash, chainId }))
+      transactionDispatch(pickFarmTransactionTx({ tx: receipt.hash, chainId }))
       onDone()
     }
   }
@@ -291,7 +292,7 @@ const Staked: React.FunctionComponent<React.PropsWithChildren<StackedActionProps
         },
       })
 
-      dispatch(pickFarmTransactionTx({ tx: receipt.hash, chainId }))
+      transactionDispatch(pickFarmTransactionTx({ tx: receipt.hash, chainId }))
       onDone()
     }
   }
@@ -364,7 +365,7 @@ const Staked: React.FunctionComponent<React.PropsWithChildren<StackedActionProps
       if (length > 1) {
         onPresentTransactionModal()
       } else {
-        dispatch(pickFarmTransactionTx({ tx: pendingFarm[0].txid, chainId }))
+        transactionDispatch(pickFarmTransactionTx({ tx: pendingFarm[0].txid, chainId }))
       }
     }
   }

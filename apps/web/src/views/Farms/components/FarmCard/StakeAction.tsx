@@ -9,7 +9,6 @@ import { styled } from 'styled-components'
 import { useRouter } from 'next/router'
 import { useFarmFromPid } from 'state/farms/hooks'
 import { useCakePrice } from 'hooks/useCakePrice'
-import { useAppDispatch } from 'state'
 import { WNATIVE, NATIVE } from '@pancakeswap/sdk'
 import { ChainId } from '@pancakeswap/chains'
 import { SendTransactionResult } from 'wagmi/actions'
@@ -24,6 +23,7 @@ import { FarmTransactionStatus, NonBscFarmStepType } from 'state/transactions/ac
 import WalletModal, { WalletView } from 'components/Menu/UserMenu/WalletModal'
 import { FarmWithStakedValue } from '@pancakeswap/farms'
 import useAccountActiveChain from 'hooks/useAccountActiveChain'
+import { useTransactionState } from 'state/transactions/reducer'
 import { YieldBoosterStateContext } from '../YieldBooster/components/ProxyFarmContainer'
 import { YieldBoosterState } from '../YieldBooster/hooks/useYieldBoosterState'
 import { useFirstTimeCrossFarming } from '../../hooks/useFirstTimeCrossFarming'
@@ -70,7 +70,7 @@ const StakeAction: React.FC<React.PropsWithChildren<FarmCardActionsProps>> = ({
   isApproved,
 }) => {
   const { t } = useTranslation()
-  const dispatch = useAppDispatch()
+  const [, transactionDispatch] = useTransactionState()
   const addTransaction = useTransactionAdder()
   const { account, chainId } = useAccountActiveChain()
   const native = useNativeCurrency()
@@ -152,7 +152,7 @@ const StakeAction: React.FC<React.PropsWithChildren<FarmCardActionsProps>> = ({
         },
       })
 
-      dispatch(pickFarmTransactionTx({ tx: receipt.hash, chainId }))
+      transactionDispatch(pickFarmTransactionTx({ tx: receipt.hash, chainId }))
       onDone()
     }
   }
@@ -215,7 +215,7 @@ const StakeAction: React.FC<React.PropsWithChildren<FarmCardActionsProps>> = ({
         },
       })
 
-      dispatch(pickFarmTransactionTx({ tx: receipt.hash, chainId }))
+      transactionDispatch(pickFarmTransactionTx({ tx: receipt.hash, chainId }))
       onDone()
     }
   }
@@ -307,7 +307,7 @@ const StakeAction: React.FC<React.PropsWithChildren<FarmCardActionsProps>> = ({
       if (length > 1) {
         onPresentTransactionModal()
       } else {
-        dispatch(pickFarmTransactionTx({ tx: pendingFarm[0].txid, chainId }))
+        transactionDispatch(pickFarmTransactionTx({ tx: pendingFarm[0].txid, chainId }))
       }
     }
   }
