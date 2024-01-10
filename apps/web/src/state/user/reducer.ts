@@ -210,5 +210,5 @@ const storage = createJSONStorage<UserState>(() => localStorage)
 const userAtom = atomWithStorage('pcs:user', initialState, storage)
 
 export function useUserState() {
-  return useReducerAtom(userAtom, reducer)
+  return useReducerAtom(userAtom, userReducer)
 }
