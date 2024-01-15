@@ -1,12 +1,12 @@
-# 🥞 Pancake Frontend
+# 🐊 CucaSwap Frontend
 
 <p align="center">
-  <a href="https://pancakeswap.finance">
+  <a href="https://cucaswap.exchange">
       <img src="https://pancakeswap.finance/logo.png" height="128">
   </a>
 </p>
 
-This project contains the main features of the pancake application.
+This project is based on PancakeSwap and contains the main features of the CucaSwap application.
 
 If you want to contribute, please refer to the [contributing guidelines](./CONTRIBUTING.md) of this project.
 
